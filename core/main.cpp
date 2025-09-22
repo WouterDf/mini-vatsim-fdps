@@ -1,27 +1,33 @@
 #include <iostream>
+#include <zmq.hpp>
+#include <nlohmann/json.hpp>
 
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+#include "FlightPlan.h"
+
 int main()
 {
-    // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the
-    // <b>lang</b> variable name to see how CLion can help you rename it.
-    auto lang = "C++";
-    std::cout << "Hello and welcome to " << lang << "!\n";
+    zmq::context_t context;
+    zmq::socket_t socket(context, zmq::socket_type::sub);
+    socket.set( zmq::sockopt::subscribe, "topic" );
+    socket.connect( "tcp://localhost:5555" );
 
-    for( int i = 1; i <= 5; i++ )
+    std::cout << "Core is running" << std::endl;
+    while( true )
     {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code.
-        // We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/>
-        // breakpoint for you, but you can always add more by pressing
-        // <shortcut actionId="ToggleLineBreakpoint"/>.
-        std::cout << "i = " << i << std::endl;
-    }
+        zmq::message_t message;
+        socket.recv( message, zmq::recv_flags::none );
 
+        std::string data(static_cast<char*>(message.data()), message.size());
+
+        std::cout << "Received message of " << message.size() << " bytes" << std::endl;
+        std::string messageString(static_cast<const char*>(message.data()), message.size());
+        std::string messageContent = messageString.substr( 6 );
+
+        auto messageJson = nlohmann::json::parse(messageContent);
+        FlightPlan flightPlan = messageJson.get<FlightPlan>();
+
+        std::cout << "Received flightplan with IFPLID " << flightPlan.IFPLID << std::endl;
+
+    }
     return 0;
 }
-
-// TIP See CLion help at <a
-// href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>.
-//  Also, you can try interactive lessons for CLion by selecting
-//  'Help | Learn IDE Features' from the main menu.
