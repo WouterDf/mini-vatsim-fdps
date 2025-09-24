@@ -8,10 +8,12 @@
 #include <curl/curl.h>
 
 
+struct VATSIMResponse;
+
 class VATSIMResource {
 public:
     VATSIMResource();
-    std::string request();
+    VATSIMResponse request();
     ~VATSIMResource();
 private:
     CURL* hCurl;

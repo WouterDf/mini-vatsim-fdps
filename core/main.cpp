@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 
 #include "FlightPlan.h"
+#include "FlightState.h"
 
 int main()
 {
@@ -24,9 +25,9 @@ int main()
         std::string messageContent = messageString.substr( 6 );
 
         auto messageJson = nlohmann::json::parse(messageContent);
-        FlightPlan flightPlan = messageJson.get<FlightPlan>();
+        FlightState flight_state = messageJson.get<FlightState>();
 
-        std::cout << "Received flightplan with IFPLID " << flightPlan.IFPLID << std::endl;
+        std::cout << "Received flight state with id " << flight_state.id << std::endl;
 
     }
     return 0;

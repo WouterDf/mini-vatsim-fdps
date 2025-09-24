@@ -8,12 +8,14 @@
 #include <vector>
 #include "VATSIMMetadata.h"
 #include "VATSIMPrefile.h"
-
+#include "VATSIMFlightState.h"
 
 struct VATSIMResponse
 {
     VATSIMMetadata general;
     std::vector<VATSIMPrefile> prefiles;
+    std::vector<VATSIMFlightState> pilots;
+
 public:
     std::vector<FlightPlan> getStandardFlightPlans()
     {
@@ -26,8 +28,20 @@ public:
 
         return standardFlightPlans;
     }
+
+    std::vector<FlightState> getStandardFlightStates()
+    {
+        std::vector<FlightState> standardFlightStates{};
+
+        for( auto& flightstate : this->pilots )
+        {
+            standardFlightStates.push_back( flightstate.toStandardFlightState() );
+        }
+
+        return standardFlightStates;
+    }
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT( VATSIMResponse, general, prefiles );
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT( VATSIMResponse, general, prefiles, pilots );
 
 #endif //VATSIMRESPONSE_H

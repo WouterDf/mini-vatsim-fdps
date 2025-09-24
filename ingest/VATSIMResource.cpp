@@ -6,6 +6,8 @@
 
 #include <print>
 
+#include "VATSIMResponse.h"
+
 VATSIMResource::VATSIMResource()
 {
     hCurl = curl_easy_init();
@@ -14,11 +16,13 @@ VATSIMResource::VATSIMResource()
     curl_easy_setopt( hCurl, CURLOPT_WRITEDATA, &strBuffer );
 }
 
-std::string VATSIMResource::request()
+VATSIMResponse VATSIMResource::request()
 {
     strBuffer.clear();
     curl_easy_perform( hCurl );
-    return std::move(strBuffer);
+    auto responseJson = nlohmann::json::parse(strBuffer);
+    auto vatsimResponse = responseJson.template get<VATSIMResponse>();
+    return vatsimResponse;
 }
 
 VATSIMResource::~VATSIMResource()

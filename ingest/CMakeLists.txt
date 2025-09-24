@@ -6,6 +6,11 @@ add_executable(ingest
         VATSIMResponse.h
         VATSIMFlightPlan.h
         VATSIMPrefile.h
+        VATSIMFlightState.h
+        ZeroMQPublisher.cpp
+        ZeroMQPublisher.h
+        APublisher.cpp
+        APublisher.h
 )
 
 find_package(CURL REQUIRED)
