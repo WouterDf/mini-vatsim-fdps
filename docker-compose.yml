@@ -1,0 +1,9 @@
+services:
+  # The rabbitMQ management tool will be available on localhost:15672
+  rabbitmq-vatsim-fdps:
+    image: rabbitmq:3-management-alpine
+    networks:
+      - default
+    ports:
+      - 15672:15672
+      - 5672:5672

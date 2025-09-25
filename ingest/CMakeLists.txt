@@ -18,5 +18,6 @@ find_package(nlohmann_json 3.12.0 REQUIRED)
 find_package(cppzmq CONFIG REQUIRED)
 
 include_directories(${CURL_INCLUDE_DIR})
-target_link_libraries(ingest  PRIVATE ${CURL_LIBRARIES} nlohmann_json::nlohmann_json cppzmq)
-target_include_directories(ingest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/shared)
+target_link_libraries(ingest PRIVATE ${CURL_LIBRARIES} nlohmann_json::nlohmann_json cppzmq vatsim_shared)
+target_include_directories(ingest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set_property(TARGET ingest PROPERTY CXX_STANDARD 17)
