@@ -32,6 +32,68 @@ This project demonstrates modern C++ development practices by implementing a dis
 - Modular design with shared libraries
 - Error handling and resource management
 
+## Building the Project
+
+### Prerequisites
+
+- C++17 compatible compiler (GCC 9+, Clang 10+, or MSVC 2019+)
+- CMake 3.30+
+- vcpkg package manager
+- RabbitMQ server (for runtime)
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd vatsimfdps
+   ```
+
+2. **Install vcpkg** (if not already installed)
+   ```bash
+   git clone https://github.com/Microsoft/vcpkg.git
+   cd vcpkg
+   ./bootstrap-vcpkg.sh  # or bootstrap-vcpkg.bat on Windows
+   ./vcpkg integrate install
+   ```
+
+3. **Configure CMake with vcpkg**
+   ```bash
+   mkdir build
+   cd build
+   cmake .. -DCMAKE_TOOLCHAIN_FILE=[path-to-vcpkg]/scripts/buildsystems/vcpkg.cmake
+   ```
+
+4. **Build the project**
+   ```bash
+   make -j$(nproc)  # or cmake --build . --parallel on Windows
+   ```
+
+### Dependencies
+
+The following packages are automatically managed by vcpkg:
+- `curl` - HTTP client library
+- `nlohmann-json` - JSON parsing
+- `cppzmq` - ZeroMQ C++ bindings
+- `rmqcpp` - Bloomberg RabbitMQ C++ library
+
+### Running
+
+1. **Start RabbitMQ server**
+   ```bash
+   docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+   ```
+
+2. **Run the ingest service**
+   ```bash
+   ./ingest/ingest
+   ```
+
+3. **Run the core service**
+   ```bash
+   ./core/core
+   ```
+
 ## Project Purpose
 
 This project was developed to demonstrate proficiency in:
