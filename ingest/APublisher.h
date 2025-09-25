@@ -13,9 +13,10 @@ struct FlightPlan;
 class APublisher
 {
 public:
-    APublisher(std::string address) : address( address ){};
-    virtual void publish(FlightPlan flight_plan) = 0;
-    virtual void publish(FlightState flight_state) = 0;
+    APublisher(const std::string& address) : address(address) {}
+    virtual ~APublisher() = default;
+    virtual void publish(const FlightPlan& flight_plan) = 0;
+    virtual void publish(const FlightState& flight_state) = 0;
 private:
     std::string address;
 };

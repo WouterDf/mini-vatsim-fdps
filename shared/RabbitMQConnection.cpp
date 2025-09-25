@@ -4,6 +4,10 @@
 
 #include "RabbitMQConnection.h"
 
+using namespace BloombergLP;
+
+const std::string RabbitMQConnection::DEFAULT_ROUTING_KEY = "";
+
 #include <rmqt_simpleendpoint.h>
 #include <rmqt_plaincredentials.h>
 #include <rmqa_producer.h>
@@ -13,7 +17,7 @@
 
 using namespace BloombergLP;
 
-RabbitMQConnection::RabbitMQConnection(std::string address, int port, std::string username, std::string password)
+RabbitMQConnection::RabbitMQConnection(const std::string& address, int port, const std::string& username, const std::string& password)
 {
     const std::string EXCHANGE_NAME("vatsim-fdps");
     const std::string QUEUE_NAME("vatsim-fdps-queue");
@@ -42,13 +46,13 @@ RabbitMQConnection::RabbitMQConnection(std::string address, int port, std::strin
     std::cout << "Created a producer" << std::endl;
 }
 
-void RabbitMQConnection::publish( FlightPlan flight_plan )
+void RabbitMQConnection::publish(const FlightPlan& flight_plan)
 {
     std::string json = to_json_string(flight_plan);
     publish( json );
 }
 
-void RabbitMQConnection::publish( FlightState flight_state )
+void RabbitMQConnection::publish(const FlightState& flight_state)
 {
     std::string json = to_json_string(flight_state);
     publish( json );
@@ -65,7 +69,7 @@ void RabbitMQConnection::createConsumer(rmqp::Consumer::ConsumerFunc consumer_fu
     consumer = consumerResult.value();
 }
 
-void RabbitMQConnection::publish( std::string message_string )
+void RabbitMQConnection::publish(const std::string& message_string)
 {
     rmqt::Message message(bsl::make_shared<bsl::vector<uint8_t>>(message_string.cbegin(), message_string.cend()));
 

@@ -15,12 +15,12 @@ class RabbitMQConnection
 {
 public:
 
-    RabbitMQConnection(std::string address, int port, std::string username, std::string password);
-    void publish(FlightPlan flight_plan);
-    void publish(FlightState flight_state);
+    RabbitMQConnection(const std::string& address, int port, const std::string& username, const std::string& password);
+    void publish(const FlightPlan& flight_plan);
+    void publish(const FlightState& flight_state);
     void createConsumer(rmqp::Consumer::ConsumerFunc consumer_func);
 private:
-    void publish(std::string message);
+    void publish(const std::string& message);
 
 private:
     rmqa::RabbitContext context;
@@ -30,7 +30,7 @@ private:
     bsl::shared_ptr<rmqa::VHost> vhost;
     bsl::shared_ptr<rmqa::Producer> producer;
     bsl::shared_ptr<rmqa::Consumer> consumer;
-    std::string DEFAULT_ROUTING_KEY = "";
+    static const std::string DEFAULT_ROUTING_KEY;
 };
 
 

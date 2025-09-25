@@ -14,9 +14,9 @@ struct FlightPlan;
 class ZeroMQPublisher : public APublisher
 {
 public:
-    ZeroMQPublisher(std::string address);
-    void publish(FlightPlan flight_plan);
-    void publish(FlightState flight_state);
+    ZeroMQPublisher(const std::string& address);
+    void publish(const FlightPlan& flight_plan) override;
+    void publish(const FlightState& flight_state) override;
 
 private:
     zmq::context_t context;
