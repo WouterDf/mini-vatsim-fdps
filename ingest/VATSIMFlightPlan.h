@@ -8,7 +8,6 @@
 
 #include "../shared/FlightPlan.h"
 
-struct FlightPlan;
 
 struct VATSIMFlightPlan
 {

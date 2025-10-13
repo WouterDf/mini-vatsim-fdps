@@ -15,7 +15,7 @@ public:
     VATSIMResource();
     VATSIMResource(const VATSIMResource &) = default;
     VATSIMResource(VATSIMResource &&) = delete;
-    VATSIMResource &operator=(const VATSIMResource &) = default;
+    VATSIMResource &operator=(const VATSIMResource &) = delete;
     VATSIMResource &operator=(VATSIMResource &&) = delete;
     VATSIMResponse request();
     ~VATSIMResource();

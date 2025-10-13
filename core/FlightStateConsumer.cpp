@@ -21,7 +21,7 @@ void FlightStateConsumer::operator()( BloombergLP::rmqp::MessageGuard &messageGu
 
 bool FlightStateConsumer::processMessage( const BloombergLP::rmqt::Message &message )
 {
-    std::string messageString((const char *)message.payload());
+    std::string messageString((const char *)message.payload(), message.payloadSize());
     auto messageJson = nlohmann::json::parse( messageString );
     auto flightState = messageJson.get<FlightState>();
     std::cout << "Consuming flightstate with id " << flightState.id << std::endl;

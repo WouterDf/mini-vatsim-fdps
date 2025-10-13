@@ -14,8 +14,6 @@ int main()
     const int port = 5672;
     auto publisher = std::make_unique<RabbitMQConnection>( "localhost", port, "guest", "guest" );
 
-    auto *newPublisher = new RabbitMQConnection( "localhost", port, "guest", "guest" );
-
     while( true )
     {
         // Perform request to vatsim

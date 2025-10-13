@@ -2,4 +2,6 @@
 /.idea
 /vcpkg_installed
 CMakeUserPresets.json
-
+/build
+.cache
+compile_commands.json

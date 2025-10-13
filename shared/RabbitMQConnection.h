@@ -22,7 +22,6 @@ public:
 private:
     void publish(const std::string& message);
 
-private:
     rmqa::RabbitContext context;
     rmqa::Topology topology;
     rmqt::QueueHandle hQueue;
