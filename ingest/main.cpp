@@ -1,19 +1,20 @@
+#include "VATSIMResource.h"
+#include "../shared/RabbitMQConnection.h"
+#include "VATSIMResponse.h"
 #include <iostream>
 #include <thread>
 #include <zmq.hpp>
-#include "VATSIMResource.h"
-#include "VATSIMResponse.h"
-#include "FlightPlan.h"
-#include "../shared/RabbitMQConnection.h"
-#include "ZeroMQPublisher.h"
 
 int main()
 {
     auto VATSIMresource = std::make_unique<VATSIMResource>();
     // auto publisher = std::make_unique<ZeroMQPublisher>( "tcp://*:5555" );
 
-    // TODO: Authentication details should not be in code base.
-    auto publisher = std::make_unique<RabbitMQConnection>( "localhost", 5672, "guest", "guest" );
+    // TODO(wouterdeferme): Authentication details should not be in code base.
+    const int port = 5672;
+    auto publisher = std::make_unique<RabbitMQConnection>( "localhost", port, "guest", "guest" );
+
+    auto *newPublisher = new RabbitMQConnection( "localhost", port, "guest", "guest" );
 
     while( true )
     {
@@ -24,7 +25,7 @@ int main()
         auto standardFlightPlans = vatsimResponse->getStandardFlightPlans();
         auto standardFlightStates = vatsimResponse->getStandardFlightStates();
 
-        std::cout << "System ingested " << standardFlightPlans.size() << " flight plans" << std::endl;
+        std::cout << "System ingested " << standardFlightPlans.size() << " flight plans" << '\n';
 
         // Publish each Flight State
         for( auto& flight_state : standardFlightStates )
@@ -38,6 +39,7 @@ int main()
         //     publisher->publish( flp );
         // }
 
-        std::this_thread::sleep_for(std::chrono::seconds(6));
+	const int SLEEP_MS = 6;
+        std::this_thread::sleep_for(std::chrono::seconds(SLEEP_MS));
     }
 }

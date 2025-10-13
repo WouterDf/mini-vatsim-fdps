@@ -4,8 +4,8 @@
 
 #ifndef VATSIMRESOURCE_H
 #define VATSIMRESOURCE_H
-#include <string>
 #include <curl/curl.h>
+#include <string>
 
 
 struct VATSIMResponse;
@@ -13,6 +13,10 @@ struct VATSIMResponse;
 class VATSIMResource {
 public:
     VATSIMResource();
+    VATSIMResource(const VATSIMResource &) = default;
+    VATSIMResource(VATSIMResource &&) = delete;
+    VATSIMResource &operator=(const VATSIMResource &) = default;
+    VATSIMResource &operator=(VATSIMResource &&) = delete;
     VATSIMResponse request();
     ~VATSIMResource();
 private:

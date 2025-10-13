@@ -2,8 +2,6 @@
 #include <zmq.hpp>
 #include <nlohmann/json.hpp>
 
-#include "FlightPlan.h"
-#include "FlightState.h"
 #include "FlightStateConsumer.h"
 #include "RabbitMQConnection.h"
 
